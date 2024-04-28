@@ -40,7 +40,18 @@ const Navbar = ({
             Home
           </NavLink>
         </li>
-        
+        <li>
+          <NavLink
+            style={navActiveStyle}
+            to='/favourites'
+            className='text-gray-400 hover:text-gray-600 duration-300 outline-none'
+          >
+            Favourites
+            <span className='favourites-count text-sky-400 font-bold ml-1'>
+              ({savedItems.length})
+            </span>
+          </NavLink>
+        </li>
       </ul>
     </div>
   );
