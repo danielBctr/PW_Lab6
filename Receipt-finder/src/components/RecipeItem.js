@@ -65,7 +65,17 @@ const RecipeItem = ({ favouriteHadler, savedItems }) => {
             <h2 className='title capitalize text-4xl lg:text-6xl'>
               {recipe?.title}
             </h2>
-            
+            <div className='servings-cooking-time flex flex-col justify-between gap-5 lg:flex-row font-semibold tracking-widest text-rose-500 uppercase'>
+              <div className='servings flex items-center gap-2'>
+                <BsPerson /> Servings (People): {recipe?.servings}
+              </div>
+              <div className='cooking-time flex items-center gap-2'>
+                <BsClock /> Cooking time:{" "}
+                {recipe?.cooking_time < 60
+                  ? String(recipe?.cooking_time) + "min"
+                  : durationCalc(recipe?.cooking_time / 60)}
+              </div>
+            </div>
             <div className='buttons flex flex-col gap-5 items-start lg:flex-row'>
               <button
                 onClick={() => favouriteHadler(recipe?.id)}
@@ -88,7 +98,26 @@ const RecipeItem = ({ favouriteHadler, savedItems }) => {
               </Link>
             </div>
           </div>
-          
+          <div className='recipe-ingredients-sec col-span-full'>
+            <span className='ing-title text-2xl lg:text-4xl font-medium mb-5 flex items-center gap-3'>
+              <GiKnifeFork className='text-rose-500' />
+              Ingredients:
+            </span>
+            <hr className='border-rose-100' />
+            <ul className='mt-5'>
+              {recipe?.ingredients?.map((ing, i) => (
+                <li className='leading-loose flex gap-1 items-center' key={i}>
+                  <span className='text-green-400'>
+                    <TiTick />
+                  </span>
+                  <span>
+                    {ing.quantity}
+                    {ing.unit} {ing.description}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       )}
     </div>
