@@ -8,7 +8,7 @@ import RecipeItem from "./components/RecipeItem";
 import Favourites from "./components/Favourites";
 import Footer from "./components/Footer";
 import NotFound from "./components/NotFound";
-import Darkmode from 'darkmode-js';
+import Darkmode from 'darkmode-js'
 
 const App = () => {
   //This function for smooth scrolling
