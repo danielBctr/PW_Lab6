@@ -1,11 +1,23 @@
 from flask import Blueprint, request, jsonify
 from sqlalchemy.exc import IntegrityError
 from database.db import db
-from database.Recipe import Recipe  # Correcting the import for Recipe model
+from database.Recipe import Recipe
+from flask_jwt_extended import jwt_required, create_access_token, get_jwt_identity
 
 routes = Blueprint('routes', __name__)
 
+@routes.route('/token', methods=['POST'])
+def token():
+    try:
+        data = request.get_json()
+        roles = data.get('roles', [])
+        access_token = create_access_token(identity={'roles': roles})
+        return jsonify(access_token=access_token), 200
+    except:
+        return {"message": "Failed to generate token"}, 500
+
 @routes.route('/recipes', methods=['POST'])
+@jwt_required(optional=True)  # JWT token is optional for adding recipes
 def add_recipe():
     try:
         data = request.get_json()
@@ -46,6 +58,7 @@ def get_recipe(id):
         return {"message": "Recipe not found"}, 404
 
 @routes.route('/recipes/<int:id>', methods=['PUT'])
+@jwt_required(optional=True)  # JWT token is optional for updating recipes
 def update_recipe(id):
     try:
         data = request.get_json()
@@ -68,6 +81,7 @@ def update_recipe(id):
         return {"message": "Recipe could not be updated. The data provided is not valid."}, 400
 
 @routes.route('/recipes/<int:id>', methods=['DELETE'])
+@jwt_required(optional=True)  # JWT token is optional for deleting recipes
 def delete_recipe(id):
     recipe = Recipe.query.filter_by(id=id).first()
     if recipe:
