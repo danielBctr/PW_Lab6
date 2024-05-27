@@ -1,1 +1,1 @@
-# PW_Lab6
+# Receipt-finder
